@@ -4,7 +4,8 @@ const {ccclass, property} = cc._decorator;
 export default class Helloworld extends cc.Component {
 
     @property(cc.Node)
-    moveNode: cc.Node = null;
+    moveNode: cc.Node;
+    position = cc.Vec2.ZERO;
 
     onLoad() {
         cc.director.getPhysicsManager().gravity = cc.v2(0, -1);
@@ -15,7 +16,11 @@ export default class Helloworld extends cc.Component {
             cc.PhysicsManager.DrawBits.e_shapeBit;
 
         this.node.on(cc.Node.EventType.MOUSE_MOVE, (event: cc.Event.EventMouse) => {
-            this.moveNode.setPosition(this.node.convertToNodeSpaceAR(event.getLocation()));
+            this.position = this.node.convertToNodeSpaceAR(event.getLocation());
         });
+    }
+
+    update() {
+        this.moveNode.setPosition(this.position.x, this.position.y);
     }
 }
